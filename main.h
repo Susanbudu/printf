@@ -38,37 +38,37 @@ int _printf(const char *format, ...);
 int handle_print(const char *fmt, int *current_itt,
 		va_list arguments, char buffer[], int t, int f, int d, int m);
 int print_char(va_list var_types, char buffer[],
-		int f, int w, int P, int Z);
+		int t, int f, int d, int m);
 int print_string(va_list var_types, char buffer[],
-		int f, int w, int P, int Z);
+		int t, int f, int d, int m);
 int print_percent(va_list var_types, char buffer[],
-		int f, int w, int P, int Z);
+		int t, int f, int d, int m);
 int print_int(va_list var_types, char buffer[],
-		int f, int w, int P, int Z);
+		int t, int f, int d, int m);
 int print_binary(va_list var_types, char buffer[],
-		int f, int w, int P, int Z);
+		int t, int f, int d, int m);
 int print_unsigned(va_list var_types, char buffer[],
-		int f, int w, int P, int Z);
+		int t, int f, int d, int m);
 int print_octal(va_list var_types, char buffer[],
-		int f, int w, int P, int Z);
+		int t, int f, int d, int m);
 int print_hexadecimal(va_list var_types, char buffer[],
-		int f, int w, int P, int Z);
+		int t, int f, int d, int m);
 int print_hexa_upper(va_list var_types, char buffer[],
-		int f, int w, int P, int Z);
+		int t, int f, int d, int m);
 int print_hexa(va_list var_types, char point_to[],
-		char buffer[], int f, char flag_ch, int w, int P, int Z);
+		char buffer[], int t, char flag_ch, int f, int d, int m);
 int print_non_printable(va_list var_types, char buffer[],
-		int f, int w, int P, int Z);
+		int t, int f, int d, int m);
 int print_pointer(va_list var_types, char buffer[],
-		int f, int w, int P, int Z);
+		int t, int f, int d, int m);
 int get_flags(const char *format, int *itt);
 int get_width(const char *format, int *itt, va_list arguments);
 int get_precision(const char *format, int *itt, va_list arguments);
 int get_size(const char *format, int *itt);
 int print_reverse(va_list var_types, char buffer[],
-		int f, int w, int P, int Z);
+		int t, int f, int d, int m);
 int print_rot13string(va_list var_types, char buffer[],
-		int f, int w, int P, int Z);
+		int t, int f, int d, int m);
 int handle_write_char(char c, char buffer[],
 		int flags, int width, int precision, int size);
 int write_number(int is_negative, int ind, char buffer[],
@@ -84,7 +84,7 @@ int write_unsgnd(int is_negative, int ind,
 int is_printable(char c);
 int append_hexa_code(char code, char buffer[], int i);
 int is_digit(char c);
-long int convert_size_number(long int N, int Z);
-long int convert_size_unsgnd(unsigned long int N, int Z);
+long int convert_size_number(long int N, int m);
+long int convert_size_unsgnd(unsigned long int N, int m);
 #endif /* MAIN_H */
 
