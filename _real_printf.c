@@ -1,62 +1,47 @@
-#include "main.h"
+#include <stdarg.h>
+#include <unistd.h> // Assuming print_buffer uses write
+
+#define BUFF_SIZE 1024
 
 void print_buffer(char buffer[], int *buffer_indicator);
 
- 
 int _printf(const char *format, ...)
 {
-	int count, printed = 0, output = 0;
-	int t, f, d, m, buffer_indicator = 0;
-	va_list arguments;
-	char buffer[BUFF_SIZE];
+    if (format == NULL)
+        return -1;
 
-	if (format == NULL)
-		return (-1);
+    va_list arguments;
+    va_start(arguments, format);
 
-	va_start(arguments, format);
+    int count, output = 0, buffer_indicator = 0;
+    char buffer[BUFF_SIZE];
 
-	for (count = 0; format && format[count] != '\0'; count++)
-	{
-		if (format[count] != '%')
-		{
-			buffer[buffer_indicator++] = format[count];
-			if (buffer_indicator == BUFF_SIZE)
-				print_buffer(buffer, &buffer_indicator);
-			/* write(1, &format[count], 1); */
-			output++;
-		}
-		else
-		{
-			print_buffer(buffer, &buffer_indicator);
-			t = get_flags(format, &count);
-			f = get_width(format, &count, arguments);
-			d = get_precision(format, &count, arguments);
-			m = get_size(format, &count);
-			++count;
-			printed = handle_print(format, &count, arguments, buffer,
-				f, w, P, Z);
-			if (printed == -1)
-				return (-1);
-			output += printed;
-		}
-	}
+    for (count = 0; format[count] != '\0'; count++)
+    {
+        if (format[count] != '%')
+        {
+            buffer[buffer_indicator++] = format[count];
+            if (buffer_indicator == BUFF_SIZE - 1)
+                print_buffer(buffer, &buffer_indicator);
+            output++;
+        }
+        else
+        {
+            print_buffer(buffer, &buffer_indicator);
+            // Assuming get_flags, get_width, get_precision, get_size are correctly implemented
+            int t = get_flags(format, &count);
+            int f = get_width(format, &count, arguments);
+            int d = get_precision(format, &count, arguments);
+            int m = get_size(format, &count);
 
-	print_buffer(buffer, &buffer_indicator);
+            // Assuming _print_formatted is a function to print the formatted argument
+            output += _print_formatted(t, f, d, m, arguments);
+        }
+    }
 
-	va_end(arguments);
+    print_buffer(buffer, &buffer_indicator); // Print any remaining characters in the buffer
+    va_end(arguments);
 
-	return (output);
+    return output;
 }
 
-/**
- * print_buffer - Prints the contents of the buffer if it exists
- * @buffer: Array of chars
- * @buffer_indicator: represents the length.
- */
-void print_buffer(char buffer[], int *buffer_indicator)
-{
-	if (*buffer_indicator > 0)
-		write(1, &buffer[0], *buffer_indicator);
-
-	*buffer_indicator = 0;
-}
